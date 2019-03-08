@@ -1,22 +1,66 @@
 import React, { Component } from 'react';
 import './App.css';
-/*
- to wire this component up you're going to need a few things.
- I'll let you do this part on your own. 
- Just remember, `how do I `connect` my components to redux?`
- `How do I ensure that my component links the state to props?`
- */
+import { connect } from 'react-redux';
+import { getSmurfs } from '../actions';
+
 class App extends Component {
+  state = {
+    smurf: {
+      name: '',
+      age: '',
+      height: '',
+    }
+  }
+
+   componentDidMount() {
+    this.props.getSmurfs();
+  }
+
+   changeHandler = e => {
+    e.persist();
+    let value = e.target.value;
+    if (e.target.name === "age") {
+      value = parseInt(value, 10);
+    }
+    this.setState(prevState => ({
+      smurf: {
+        ...prevState.smurf,
+        [e.target.name]: value
+      }
+    }));
+  };
+
+   submitHandler = e => {
+    this.props.addSmurf(this.state.smurf);
+    this.setState({ 
+      smurf: {
+        name: '',
+        age: '',
+        height: ''
+      }});
+  };
+  
+  
   render() {
     return (
       <div className="App">
-        <h1>SMURFS! 2.0 W/ Redux</h1>
-        <div>Welcome to your Redux version of Smurfs!</div>
-        <div>Start inside of your `src/index.js` file!</div>
-        <div>Have fun!</div>
+        {this.props.smurfs.map(smurf => (
+          <div>
+            <h1>{smurf.name}</h1>
+            <h2>{smurf.age}</h2>
+            <h2>{smurf.height}</h2>
+          </div>
+        ))}
       </div>
     );
   }
 }
 
-export default App;
+const mapStateToProps = state => ({
+  smurfs: state.smurfs
+})
+
+export default connect(
+  mapStateToProps,
+  { getSmurfs }
+)(App);

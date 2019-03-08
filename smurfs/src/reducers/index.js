@@ -1,11 +1,11 @@
-import { FETCH_SMURFS_START, FETCH_SMURFS_SUCCESS, FETCH_FAIL} from '../actions';
+import { FETCH_SMURFS_START, FETCH_SMURFS_SUCCESS, FETCH_SMURFS_FAIL} from '../actions';
 
 const initialState = {
   smurfs: [],
-  fetchingSmurfs: false
-  addingSmurf: false
-  updatingSmurf: false
-  deletingSmurf: false
+  fetchingSmurfs: false,
+  addingSmurf: false,
+  updatingSmurf: false,
+  deletingSmurf: false,
   error: null
 }
 

@@ -1,22 +1,86 @@
 import React, { Component } from 'react';
 import './App.css';
-/*
- to wire this component up you're going to need a few things.
- I'll let you do this part on your own. 
- Just remember, `how do I `connect` my components to redux?`
- `How do I ensure that my component links the state to props?`
- */
+import { connect } from 'react-redux';
+import { getSmurfs, addSmurf } from '../actions';
+
 class App extends Component {
+  state = {
+    smurf: {
+      name: '',
+      age: '',
+      height: '',
+    }
+  }
+
+   componentDidMount() {
+    this.props.getSmurfs();
+  }
+
+   changeHandler = e => {
+    e.persist();
+    let value = e.target.value;
+    if (e.target.name === "age") {
+      value = parseInt(value, 10);
+    }
+    this.setState(prevState => ({
+      smurf: {
+        ...prevState.smurf,
+        [e.target.name]: value
+      }
+    }));
+  };
+
+   submitHandler = e => {
+    e.preventDefault();
+    this.props.addSmurf(this.state.smurf);
+  }; 
+  
+  
   render() {
     return (
       <div className="App">
-        <h1>SMURFS! 2.0 W/ Redux</h1>
-        <div>Welcome to your Redux version of Smurfs!</div>
-        <div>Start inside of your `src/index.js` file!</div>
-        <div>Have fun!</div>
+        <form onSubmit={this.submitHandler}>
+          <input
+            type='text'
+            name='name'
+            placeholder='Whats Your Smurfin Name?'
+            value={this.state.smurf.name}
+            onChange={this.changeHandler}
+          />
+          <input
+            type='number'
+            name='age'
+            placeholder='Whats Your Smurfin Age?'
+            value={this.state.smurf.age}
+            onChange={this.changeHandler}
+          />
+          <input
+            type='text'
+            name='height'
+            placeholder='Whats Your Smurfin Height?'
+            value={this.state.smurf.height}
+            onChange={this.changeHandler}
+          />
+          <button>Add Ya Smurf</button>
+        </form>
+        {this.props.smurfs.map(smurf => (
+          <div key={smurf.name}>
+            <h1>{smurf.name}</h1>
+            <h2>{smurf.age} Smurfin' Years Old</h2>
+            <p>{smurf.height}Smurfin' Smurf Inches</p>
+          </div>
+        ))}
       </div>
     );
   }
 }
 
-export default App;
+const mapStateToProps = state => ({
+  smurfs: state.smurfs,
+  fetchingSmurfs: state.fetchingSmurfs
+})
+
+export default connect(
+  mapStateToProps,
+  { getSmurfs, addSmurf }
+)(App);

@@ -64,10 +64,10 @@ class App extends Component {
           <button>Add Ya Smurf</button>
         </form>
         {this.props.smurfs.map(smurf => (
-          <div>
+          <div key={smurf.name}>
             <h1>{smurf.name}</h1>
-            <h2>{smurf.age}</h2>
-            <h3>{smurf.height}</h3>
+            <h2>{smurf.age} Smurfin' Years Old</h2>
+            <p>{smurf.height}Smurfin' Smurf Inches</p>
           </div>
         ))}
       </div>
@@ -76,7 +76,8 @@ class App extends Component {
 }
 
 const mapStateToProps = state => ({
-  smurfs: state.smurfs
+  smurfs: state.smurfs,
+  fetchingSmurfs: state.fetchingSmurfs
 })
 
 export default connect(

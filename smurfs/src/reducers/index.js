@@ -4,8 +4,6 @@ const initialState = {
   smurfs: [],
   fetchingSmurfs: false,
   addingSmurf: false,
-  updatingSmurf: false,
-  deletingSmurf: false,
   error: null
 }
 
@@ -15,13 +13,14 @@ const rootReducer = ( state = initialState, action ) => {
       return {
         ...state,
         fetchingSmurfs: true,
-        error: ''
+        error: '',
       };
     case FETCH_SMURFS_SUCCESS:
       return {
         ...state,
-        smurfs: [ ...state.smurfs, ...action.payload],
-        fetchingSmurfs: false
+        smurfs: action.payload,
+        fetchingSmurfs: false,
+        error: '',
       };
     case FETCH_SMURFS_FAIL:
       return {
@@ -38,7 +37,7 @@ const rootReducer = ( state = initialState, action ) => {
     case ADD_SMURF_SUCCESS:
       return {
         ...state,
-        smurfs: [ ...state.smurfs, ...action.payload],
+        smurfs: action.payload,
         addingSmurf: false
       };
     case ADD_SMURF_FAIL:

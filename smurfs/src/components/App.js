@@ -31,6 +31,7 @@ class App extends Component {
   };
 
    submitHandler = e => {
+    e.preventDefault();
     this.props.addSmurf(this.state.smurf);
     this.setState({ 
       smurf: {
@@ -51,6 +52,30 @@ class App extends Component {
             <h2>{smurf.height}</h2>
           </div>
         ))}
+        <form onSubmit={this.submitHandler}>
+          <input
+            type='text'
+            name='name'
+            placeholder='Whats Your Smurfin Name?'
+            value={this.state.smurf.name}
+            onChange={this.changeHandler}
+          />
+          <input
+            type='number'
+            name='age'
+            placeholder='Whats Your Smurfin Age?'
+            value={this.state.smurf.age}
+            onChange={this.changeHandler}
+          />
+          <input
+            type='text'
+            name='height'
+            placeholder='Whats Your Smurfin Height?'
+            value={this.state.smurf.height}
+            onChange={this.changeHandler}
+          />
+          <button>Add Ya Smurf</button>
+        </form>
       </div>
     );
   }

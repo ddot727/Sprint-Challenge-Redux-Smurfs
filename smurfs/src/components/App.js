@@ -38,7 +38,7 @@ class App extends Component {
         age: '',
         height: ''
       }});
-  };
+  }; 
   
   
   render() {
